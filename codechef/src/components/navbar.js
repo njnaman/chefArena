@@ -21,19 +21,26 @@ class Navbar extends React.Component{
       
       let auth_code = query.split("&")[0].split("=")[1];
       if (auth_code) {
-        const url = "http://localhost:7000/login";
+        const url = "https://api.codechef.com/oauth/token";
         const response = await fetch(url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ 'code': auth_code }),
+          body: JSON.stringify({
+            "grant_type": "authorization_code",
+            'code': auth_code,
+            "client_id": '91dc76170db3fdfec8cad0bfdee857f3',
+            "client_secret": 'fc03abf96b50570a53b2c30d82695fa4',
+            "redirect_uri": "http://localhost:3000/"
+          }),
         });
         const data = await response.json();
         console.log(data);
-        if (data['access_token']) {
+        
+        if (data['result']['data']['access_token']!=="") {
           console.log("Logged in successfully");
-          this.props.handler(data['access_token'], data['refresh_token']);
+          this.props.handler(data['result']['data']['access_token'], data['result']['data']['refresh_token']);
           let user = await this.getUser();
           this.setState(pstate => {
             return {

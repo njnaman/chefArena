@@ -1,0 +1,105 @@
+.navbar{
+    background-image:linear-gradient(to right,#20232a,#20232a);
+    padding: 5px;
+    display: flex;
+}
+
+.logo{
+    background-color: #20232a;
+    padding: 10px;
+    font-size: 35px;
+    margin: 0 auto;
+    color: white;
+    font-weight: 700;
+}
+
+
+
+
+.login{
+    background-color:white;
+    border: none;
+    color: black;
+    padding: 10px 27px;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.login:hover{
+    color: brown;
+}
+
+.star4,.star3,.star2,.star1,.star5,.star6 {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 800;
+    text-align: center;
+    padding: 12px 12px; 
+    line-height: 1.3; 
+    color: white;
+    margin-right: 2px;
+    border-radius: 50%;
+}
+.star4::before{
+    content: "4★";
+    
+}
+.star4{
+    background-color: #684273;
+}
+
+.star3::before{
+    content: "3★";
+    
+}
+.star3{
+    background-color: #3366CC;
+}
+
+.star2::before{
+    content: "2★";
+    
+}
+.star2{
+    background-color: #1E7D22;
+}
+
+.star1::before{
+    content: "1★";
+    
+}
+.star1{
+    background-color: #666666;
+    border-color: brown;
+}
+
+.star5::before{
+    content: "5★";
+    
+}
+.star5{
+    background-color: #FFBF00;
+}
+
+.star6::before{
+    content: "6★";
+    
+}
+.star6{
+    background-color:  #FF7F00;
+}
+
+.star7::before{
+    content: "7★";
+}
+.star7{
+    background-color:#D0011B;
+}
+
+.username{
+    font-weight: 700;
+}

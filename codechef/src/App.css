@@ -1,0 +1,9 @@
+.App{
+    text-align: center;
+}
+
+.App-Component{
+    margin :auto 35% auto 30%;
+    width: 35%;   
+    height: 400px;
+}

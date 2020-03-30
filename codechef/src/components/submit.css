@@ -1,0 +1,61 @@
+.submitcode{
+    color: white;
+    width: fit-content;
+    height: fit-content;
+}
+.submitcode select{
+    background-color:white;
+    border: none;
+    color: black;
+    padding: 7px 10px;
+    border-radius: 0px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+}
+.submitcode input{
+    border: none;
+    color: white;
+    padding: 7px 10px;
+    border-radius: 0px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.submitcode textarea{
+    resize: none;
+    margin-left: 50px;
+}
+.submitcode button{
+    background-color:white;
+    border: none;
+    color: black;
+    width: 120px;
+    height: fit-content;
+    padding: 15px 20px;
+    border-radius: 0px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+.submitcode p{
+    margin-left: 0px;
+    margin-top: 20px;
+}
+.submitcode h2{
+    margin-left: 0px;
+    margin-top: 20px;
+}
+
+#stdout{
+    pointer-events: none;
+}

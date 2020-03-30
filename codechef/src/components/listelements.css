@@ -1,0 +1,30 @@
+.rank td{ 
+    
+    font-size: 23px;
+    color:  wheat;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 10px 10px 10px 10px;
+    background-color: transparent;
+
+}
+.rank th{
+    background-color: transparent;
+    font-size: 25px;
+    color: white;
+    border-radius: 10px 10px 10px 10px;
+    
+}
+.rank {
+    width: 97%;
+    background-color:  transparent;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-x: hidden;
+    border-radius: 10px 10px 10px 10px;
+    text-align: center;
+    border: 1px solid wheat;
+    border-collapse: collapse;
+    border: 1px solid wheat;
+}
+

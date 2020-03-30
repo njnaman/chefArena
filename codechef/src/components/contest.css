@@ -1,0 +1,54 @@
+.contest{
+    margin-top: 30px;
+    margin-left: 0px;
+    color: wheat;   
+}
+.ttt{
+    margin-top: 30px;
+    text-align: center;
+}
+.cover{
+    height: fit-content;
+}
+
+.timer{
+    width: 50;
+    float: right;
+}
+
+.heading{
+    margin-left: 30px;
+    width: 100%;
+    float: left;
+}
+
+.problems{
+    width: 100%;
+   overflow-x: auto;
+}
+td {
+    vertical-align: top;
+}
+
+td button{
+    background-color:brown;
+    border: none;
+    color: white;
+    padding: 10px 27px;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.question{
+    color: honeydew;
+    margin-left: 20px;
+    margin-right: 80px;
+}
+
+.question h1{
+    color: wheat;
+}

@@ -32,7 +32,7 @@ class Navbar extends React.Component{
             'code': auth_code,
             "client_id": '91dc76170db3fdfec8cad0bfdee857f3',
             "client_secret": 'fc03abf96b50570a53b2c30d82695fa4',
-            "redirect_uri": "http://localhost:3000/"
+            "redirect_uri": "https://codechefarena.herokuapp.com/"
           }),
         });
         const data = await response.json();
@@ -68,8 +68,9 @@ class Navbar extends React.Component{
 
   login() {
     if (this.props.state.LoginStatus === false) {
-      
-      window.location.href = "https://api.codechef.com/oauth/authorize?response_type=code&client_id=91dc76170db3fdfec8cad0bfdee857f3&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&state=xyz";
+      //redirect_uri%3Dhttps%3A%2F%2Fcodechefarena.herokuapp.com%2F
+      //window.location.href = "https://api.codechef.com/oauth/authorize?response_type=code&client_id=91dc76170db3fdfec8cad0bfdee857f3&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&state=xyz";
+      window.location.href = "https://api.codechef.com/oauth/authorize?response_type=code&client_id=91dc76170db3fdfec8cad0bfdee857f3&redirect_uri=https%3A%2F%2Fcodechefarena.herokuapp.com%2F&state=xyz";
     }
     else {
       
@@ -131,7 +132,10 @@ class Navbar extends React.Component{
             </div>
             <button className="login" onClick={this.login}>LOGOUT</button>
           </Toolbar>
-      </AppBar>
+        </AppBar>
+        <div className = "responsive-page">
+
+        </div>
     </div>
     );
   }

@@ -85,18 +85,33 @@ class ContestPage extends React.Component{
             pushState(
                 { question: this.loadques },
                 `/contest/${this.props.contest['code']}/${this.loadques}/`
-              );
-            mathbody = mathbody.replace(/<br\s*\/?>/gi,'\n');
-            return (
-                <div className="question">
-                    <hr/>
-                    <br /> 
-                    <h1>{this.props.problem[this.loadques]['problemName']}</h1>
-                    <Problem source={mathbody} />
-                    <hr/>
-                    <Submit accesstoken={this.props.state['accessToken']}/>
-                </div>
-            )
+            );
+            let ishtml = /#/i.test(mathbody)
+            if (ishtml === true) {
+                mathbody = mathbody.replace(/<br\s*\/?>/gi, '\n');
+                return (
+                    <div className="question">
+                        <hr />
+                        <br />
+                        <h1>{this.props.problem[this.loadques]['problemName']}</h1>
+                        <Problem source={mathbody} />
+                        <hr />
+                        <Submit accesstoken={this.props.state['accessToken']} />
+                    </div>
+                )
+            }
+            else {
+                return (
+                    <div className="question">
+                        <hr />
+                        <br />
+                        <h1>{this.props.problem[this.loadques]['problemName']}</h1>
+                        <div dangerouslySetInnerHTML={{__html:mathbody}}/>
+                        <hr />
+                        <Submit accesstoken={this.props.state['accessToken']} />
+                    </div>
+                )
+            }
         }
     }
 

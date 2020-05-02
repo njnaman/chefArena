@@ -9,7 +9,7 @@ $app->post('/run', function (Request $request, Response $response, $args) {
       $db = $db->connect();
       $sql_query = "Update users set active='F' where TIMEDIFF(NOW(),logintime)>='01:00:00';";
       $statement = $db->query($sql_query);
-      $sql_query = "Select accesstoken,refreshtoken,active from users where username ='".$_COOKIE['user']."';";
+      $sql_query = "Select accesstoken,refreshtoken,active from users where username ='".$_GET['user']."';";
       $statement = $db->query($sql_query);
       $user = $statement->fetchAll(PDO::FETCH_OBJ);
       $user = json_decode(json_encode($user[0]), true);
@@ -34,7 +34,7 @@ $app->post('/run', function (Request $request, Response $response, $args) {
        $result = $res['result']['data'];
        $access_token = $result['access_token'];
        $refresh_token = $result['refresh_token'];
-       $sql_str = "Update users set accesstoken = '".$access_token."',refreshtoken = '".$refresh_token."',logintime = NOW(),active = 'T' where username = '".$_COOKIE['user']."';";
+       $sql_str = "Update users set accesstoken = '".$access_token."',refreshtoken = '".$refresh_token."',logintime = NOW(),active = 'T' where username = '".$_GET['user']."';";
        $db->query($sql_str);
       }
 
@@ -69,7 +69,8 @@ $app->post('/run', function (Request $request, Response $response, $args) {
 
     }
     catch(Exception $e){
-      $response->getBody()->write(json_encode(array("status"=>"error","data"=>["message"=>"server error"])));
+         // $response->getBody()->write(json_encode($e->getMessage()));
+           $response->getBody()->write(json_encode(array("status"=>"error","data"=>["message"=>"server error"])));
     }
     //
     return $response->withHeader('Content-Type', 'application/json');

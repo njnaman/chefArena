@@ -10,7 +10,7 @@ $app->get('/successful/{problem_code}', function (Request $request, Response $re
       $db = $db->connect();
       $sql_query = "Update users set active='F' where TIMEDIFF(NOW(),logintime)>='01:00:00';";
       $statement = $db->query($sql_query);
-      $sql_query = "Select accesstoken,refreshtoken,active from users where username ='".$_COOKIE['user']."';";
+      $sql_query = "Select accesstoken,refreshtoken,active from users where username ='".$_GET['user']."';";
       $statement = $db->query($sql_query);
       $user = $statement->fetchAll(PDO::FETCH_OBJ);
       $user = json_decode(json_encode($user[0]), true);
@@ -35,11 +35,11 @@ $app->get('/successful/{problem_code}', function (Request $request, Response $re
            $result = $res['result']['data'];
            $access_token = $result['access_token'];
            $refresh_token = $result['refresh_token'];
-           $sql_str = "Update users set accesstoken = '".$access_token."',refreshtoken = '".$refresh_token."',logintime = NOW(),active = 'T' where username = '".$_COOKIE['user']."';";
+           $sql_str = "Update users set accesstoken = '".$access_token."',refreshtoken = '".$refresh_token."',logintime = NOW(),active = 'T' where username = '".$_GET['user']."';";
            $db->query($sql_str);
       }
 
-      $Rresponse = $_SESSION['guzzle']->request('GET','/submissions/?username='.$_COOKIE['user'].'&limit=20&problemCode='.$problem_code,
+      $Rresponse = $_SESSION['guzzle']->request('GET','/submissions/?username='.$_GET['user'].'&limit=20&problemCode='.$problem_code,
                     ['headers'=>array('Content-Type'=>'application/json','Authorization'=>'Bearer '.$access_token)]);
       if($Rresponse->getStatusCode()!=200)
           {throw new Exception("failed");}

@@ -12,7 +12,7 @@ export default class UserElement extends React.Component{
          const user = ranklist.map((element) =>
               <tr><td>{element['rank']}</td><td>{element['username']}</td><td>{element['rating']}</td><td>{element['totalScore']}</td></tr>
         );
-        console.log(this.props.ranklist);
+        //console.log(this.props.ranklist);
         return (
             
             <table className="rank">

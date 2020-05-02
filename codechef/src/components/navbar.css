@@ -103,9 +103,3 @@
 .username{
     font-weight: 700;
 }
-
-.responsive-page {
-    width: 100%;
-    margin: 0 auto;
-    background-image: "./space_bg.jpg";
-}

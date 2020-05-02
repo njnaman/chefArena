@@ -2,12 +2,16 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import './navbar.css'
+import Cookies from 'universal-cookie';
+
+const pushState = (obj, url) => window.history.pushState(obj, '', url);
+const onPopState = handler => {window.onpopstate = handler}
 
 class Navbar extends React.Component{
   constructor(props) {
       super(props);
       this.login = this.login.bind(this);
-      this.getUser = this.getUser.bind(this);
+      //this.getUser = this.getUser.bind(this);
       this.state = {
         username: "Loading ...",
         rating: "1★"
@@ -15,87 +19,113 @@ class Navbar extends React.Component{
     }
   
   
+
   async componentDidMount() {
-    if(this.props.state.LoginStatus===false){
+    const cookies = new Cookies();
+    const username = cookies.get('user');
+    
+      var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+      var url = "http://ec2-18-219-136-229.us-east-2.compute.amazonaws.com/backchef/?user=" + username;
+      const response = await fetch(proxyUrl+url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      const data = await response.json();
+      //console.log(data);
+      if (data['data']['username'] !== null) {
+
+        this.props.handler(data['data']['access_token']);
+        this.setState(pstate => {
+          return {
+            username: data['data']['username'],
+            rating: data['data']['band']
+          }
+        })
+      }
+    
+    
+    if (this.props.state.LoginStatus === false) {
+
       let query = window.location.search.substring(1);
       
       let auth_code = query.split("&")[0].split("=")[1];
       if (auth_code) {
-        const url = "https://api.codechef.com/oauth/token";
-        const response = await fetch(url, {
-          method: 'POST',
+        var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        var url = "http://ec2-18-219-136-229.us-east-2.compute.amazonaws.com/backchef/login?code="+auth_code;
+        const response = await fetch(proxyUrl+url, {
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            "grant_type": "authorization_code",
-            'code': auth_code,
-            "client_id": '91dc76170db3fdfec8cad0bfdee857f3',
-            "client_secret": 'fc03abf96b50570a53b2c30d82695fa4',
-            "redirect_uri": "https://codechefarena.herokuapp.com/"
-          }),
+          }
         });
         const data = await response.json();
-        console.log(data);
-        
-        if (data['result']['data']['access_token']!=="") {
-          console.log("Logged in successfully");
-          this.props.handler(data['result']['data']['access_token'], data['result']['data']['refresh_token']);
-          let user = await this.getUser();
-          this.setState(pstate => {
+        //console.log(data);
+        if (data['status'] === 'OK') {
+          const cookies = new Cookies();
+          cookies.set('user', data['data']['username'], { path: '/',maxAge: 31536000});
+          this.props.handler(data['data']['access_token']);
+            this.setState(pstate => {
             return {
-              username: user['content']['username'],
-              rating: user['content']['band']
+              username: data['data']['username'],
+              rating: data['data']['band']
             }
-          })
+            })
+          
+          //window.location.href = "http://localhost:3000/";
         }
+
       }
+
     }
   }
 
-  async getUser() {
-    const url = "https://api.codechef.com/users/me"
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.props.state.accessToken}`
-      }
-    })
-    const data = await response.json();
-    return data['result']['data'];
-  }
-
-  login() {
+  async login() {
     if (this.props.state.LoginStatus === false) {
-      //redirect_uri%3Dhttps%3A%2F%2Fcodechefarena.herokuapp.com%2F
-      //window.location.href = "https://api.codechef.com/oauth/authorize?response_type=code&client_id=91dc76170db3fdfec8cad0bfdee857f3&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&state=xyz";
-      window.location.href = "https://api.codechef.com/oauth/authorize?response_type=code&client_id=91dc76170db3fdfec8cad0bfdee857f3&redirect_uri=https%3A%2F%2Fcodechefarena.herokuapp.com%2F&state=xyz";
+       //redirect_uri%3Dhttps%3A%2F%2Fcodechefarena.herokuapp.com%2F
+       //window.location.href = "https://api.codechef.com/oauth/authorize?response_type=code&client_id=91dc76170db3fdfec8cad0bfdee857f3&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&state=xyz";
+       window.location.href = "https://api.codechef.com/oauth/authorize?response_type=code&client_id=91dc76170db3fdfec8cad0bfdee857f3&redirect_uri=https%3A%2F%2Fcodechefarena.herokuapp.com%2F&state=xyz";
+       //window.location.href = "http://ec2-18-219-136-229.us-east-2.compute.amazonaws.com/backchef/login";
     }
     else {
       
-      console.log("Logged out successfully");
-      this.props.handler("","");
+      const cookies = new Cookies();
+      var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+      var url = "http://ec2-18-219-136-229.us-east-2.compute.amazonaws.com/backchef/logout?user="+cookies.get('user');
+      await fetch(proxyUrl+url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      cookies.remove('user');
+      this.props.handler("");
+      pushState(
+        {},
+        `/`
+    );
+    onPopState(null);
     } 
   }
 
   getCss() {
-  if (this.state.rating === "4★") {
+  if (this.state.rating === "4") {
     return "star4";
   }
-  else if (this.state.rating === "5★") {
+  else if (this.state.rating === "5") {
     return "star5";
   }
-  else if (this.state.rating === "6★") {
+  else if (this.state.rating === "6") {
     return "star6";
   }
-  else if (this.state.rating === "7★") {
+  else if (this.state.rating === "7") {
     return "star7";
   }
-  else if (this.state.rating === "3★") {
+  else if (this.state.rating === "3") {
     return "star3";
   }
-  else if (this.state.rating === "2★") {
+  else if (this.state.rating === "2") {
     return "star2";
   }
   else {
@@ -132,10 +162,7 @@ class Navbar extends React.Component{
             </div>
             <button className="login" onClick={this.login}>LOGOUT</button>
           </Toolbar>
-        </AppBar>
-        <div className = "responsive-page">
-
-        </div>
+      </AppBar>
     </div>
     );
   }

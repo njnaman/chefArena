@@ -15,17 +15,21 @@ class ContestPage extends React.Component{
         super(props)
         this.state = {
             questionShow: false,
-            score:0
+            score: 0,
+            showPopup: false
         }
         this.loadques = ""
         this.questionHandler = this.questionHandler.bind(this);
         this.renderMaincontest = this.renderMaincontest.bind(this);
         this.endTest = this.endTest.bind(this);
+        this.togglePopup = this.togglePopup.bind(this);
         
     }
 
-    increaseScore() {
-        
+    togglePopup() {
+        this.setState({  
+            showPopup: !this.state.showPopup  
+       });  
     }
 
     endTest() {
@@ -90,26 +94,44 @@ class ContestPage extends React.Component{
             if (ishtml === true) {
                 mathbody = mathbody.replace(/<br\s*\/?>/gi, '\n');
                 return (
-                    <div className="question">
-                        <hr />
-                        <br />
-                        <h1>{this.props.problem[this.loadques]['problemName']}</h1>
-                        <Problem source={mathbody} />
-                        <hr />
-                        <Submit accesstoken={this.props.state['accessToken']} />
-                    </div>
+                    <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <div className="question">
+                                    <hr />
+                                    <br />
+                                    <h1>{this.props.problem[this.loadques]['problemName']}</h1>
+                                    <Problem source={mathbody} />
+                                    <hr />
+                                    <Submit accesstoken={this.props.state['accessToken']} />      
+                                </div>
+                            </td>
+
+                        </tr>
+                        </table>
+                    </div>    
                 )
             }
             else {
                 return (
-                    <div className="question">
-                        <hr />
-                        <br />
-                        <h1>{this.props.problem[this.loadques]['problemName']}</h1>
-                        <div dangerouslySetInnerHTML={{__html:mathbody}}/>
-                        <hr />
-                        <Submit accesstoken={this.props.state['accessToken']} />
-                    </div>
+                    <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <div className="question">
+                                    <hr />
+                                    <br />
+                                    <h1>{this.props.problem[this.loadques]['problemName']}</h1>
+                                    <div dangerouslySetInnerHTML={{__html:mathbody}}/>
+                                    <hr />
+                                    <Submit accesstoken={this.props.state['accessToken']} />  
+                                </div>
+                            </td>
+                        </tr>
+                        </table>
+                        
+                    </div>    
                 )
             }
         }

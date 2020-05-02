@@ -52,8 +52,9 @@
     margin-top: 20px;
 }
 .submitcode h2{
-    margin-left: 0px;
+    margin-left: 10px;
     margin-top: 20px;
+    color: white;
 }
 
 #stdout{

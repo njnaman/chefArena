@@ -16,7 +16,6 @@ class App extends React.Component {
     this.state = {
       LoginStatus: false,
       accessToken: '',
-      refreshToken: '',
       loadcontest:false
     }
     this.contests = {}
@@ -31,14 +30,13 @@ class App extends React.Component {
   }
 
 
-  loginStateHandler(accessT, refreshT) {
+  loginStateHandler(accessT) {
 
     if (this.state.LoginStatus) {
       this.setState(pstate => {
         return {
           LoginStatus: false,
           accessToken: '',
-          refreshToken: '',
           loadcontest:false
         }
       })
@@ -53,7 +51,6 @@ class App extends React.Component {
         return {
           LoginStatus: true,
           accessToken: accessT,
-          refreshToken: refreshT
         }
       })
     }

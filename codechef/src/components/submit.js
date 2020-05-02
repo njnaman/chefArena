@@ -1,5 +1,6 @@
 import React from 'react';
 import "./submit.css"
+import Cookies from 'universal-cookie';
 
 export default class Submit extends React.Component{
     constructor(props) {
@@ -8,35 +9,34 @@ export default class Submit extends React.Component{
     }
 
     async run() {
+        const cookie = new Cookies();
+        let user = cookie.get('user');
         let lang = document.getElementById("language");
         let language = lang.options[lang.selectedIndex].value;
         let code = document.getElementById("code").value;
         let inpta = document.getElementById("stdin").value;
-        const auth_code = this.props.accesstoken;
+        console.log(user);
         
-        const url = "https://api.codechef.com/ide/run";
         try {
-            const response = await fetch(url, {
+            let formData = new FormData();
+            formData.append('sourceCode', code);
+            formData.append('language', 'C++14');
+            formData.append('input', inpta);
+
+            var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            var url = "ec2-18-219-136-229.us-east-2.compute.amazonaws.com/backchef/run?user="+user;
+            const response = await fetch(proxyUrl+url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${auth_code}`
+                    //'Origin':'ec2-18-219-136-229.us-east-2.compute.amazonaws.com/backchef/'
                 },
-                body: JSON.stringify({ 'sourceCode': code, 'language': language, 'Input': inpta }),
+                body: formData,
             });
             const data = await response.json()
-            const link = data['result']['data']['link']
-                const ur = "https://api.codechef.com/ide/status?link=" + link
-                const res = await fetch(ur, {
-                    method: 'GET',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      'Authorization': `Bearer ${auth_code}` 
-                    }
-                })
-                const dat = await res.json()
-                console.log(dat);
-                const outp = dat['result']['data']['output']
+
+                console.log(data);
+               // const outp = dat['result']['data']['output']
                 //console.log(outp)
                 document.getElementById("stdout").value = "The output is fetched but output is empty{printed in console}";
 
@@ -111,7 +111,8 @@ export default class Submit extends React.Component{
         ]
         const option = lang.map((element) => <option value={element}>{element}</option>)
         return (
-            <div className="submitcode">
+
+                <div className="submitcode">
                 <h2>Submission Window</h2>
                 <p>Choose your language : <select name="language" id="language">{option}</select></p>
                 <p>Paste your Code here: </p>
@@ -124,7 +125,7 @@ export default class Submit extends React.Component{
                 <br/>
                 <button onClick={this.run}>Run</button>
                 <button onClick={this.finalsubmit}>Submit</button>
-            </div>
+                </div> 
         )
     }
 }

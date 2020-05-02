@@ -1,5 +1,6 @@
 import React from 'react';
 import './searchbar.css'
+import Cookies from 'universal-cookie';
 
 const pushState = (obj, url) => window.history.pushState(obj, '', url);
 const onPopState = handler => {window.onpopstate = handler}
@@ -26,20 +27,37 @@ export default class SearchBar extends React.Component{
 
     async componentDidMount() {
         if (this.props.state.accessToken !== "") {
+            //console.log(this.props.state.accessToken);
            await this.getContest();
         }
     }
 
     async getContest() {
+
+        const cookies = new Cookies();
+        const username = cookies.get('user');
+        
+        var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        var purl = "http://ec2-18-219-136-229.us-east-2.compute.amazonaws.com/backchef/?user="+username;
+        const respons = await fetch(proxyUrl+purl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+        });
+        const dat = await respons.json();
+        const accessToken = dat['data']['access_token'];
+
         const url = "https://api.codechef.com/contests"
         const response = await fetch(url, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${this.props.state.accessToken}` 
+            'Authorization': `Bearer ${accessToken}` 
           }
         })
         const data = await response.json();
+        //console.log(data);
         data['result']['data']['content']['contestList'].forEach(element => {
 
                 this.contests[element['code']] = element['code']
@@ -82,6 +100,21 @@ export default class SearchBar extends React.Component{
     }
 
     async submit() {
+        const cookies = new Cookies();
+        const username = cookies.get('user');
+        
+        var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        var purl = "http://ec2-18-219-136-229.us-east-2.compute.amazonaws.com/backchef/?user="+username;
+        const respons = await fetch(proxyUrl+purl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+        });
+        const dat = await respons.json();
+        const accessToken = dat['data']['access_token'];
+
+
         let cont = document.getElementById("contest").value;
         let code = this.contests[cont];
         if (code !== undefined) {
@@ -92,7 +125,7 @@ export default class SearchBar extends React.Component{
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.props.state.accessToken}`
+                        'Authorization': `Bearer ${accessToken}`
                     }
                 })
                 const selectedContest = await response.json();
@@ -127,6 +160,22 @@ export default class SearchBar extends React.Component{
     }
 
     async div1() {
+
+        const cookies = new Cookies();
+        const username = cookies.get('user');
+        
+        var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        var purl = "http://ec2-18-219-136-229.us-east-2.compute.amazonaws.com/backchef/?user="+username;
+        const respons = await fetch(proxyUrl+purl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+        });
+        const dat = await respons.json();
+        const accessToken = dat['data']['access_token'];
+
+
         let cont = document.getElementById("contest").value;
         let code = this.contests[cont] + "A";
         if (code !== undefined) {
@@ -135,7 +184,7 @@ export default class SearchBar extends React.Component{
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.props.state.accessToken}`
+                    'Authorization': `Bearer ${accessToken}`
                 }
             })
             const selectedContest = await response.json();
@@ -150,6 +199,21 @@ export default class SearchBar extends React.Component{
     }
 
     async div2() {
+        const cookies = new Cookies();
+        const username = cookies.get('user');
+        
+        var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        var purl = "http://ec2-18-219-136-229.us-east-2.compute.amazonaws.com/backchef/?user="+username;
+        const respons = await fetch(proxyUrl+purl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+        });
+        const dat = await respons.json();
+        const accessToken = dat['data']['access_token'];
+
+
         let cont = document.getElementById("contest").value;
         let code = this.contests[cont] + "B";
         if (code !== undefined) {
@@ -158,7 +222,7 @@ export default class SearchBar extends React.Component{
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.props.state.accessToken}`
+                    'Authorization': `Bearer ${accessToken}`
                 }
             })
             const selectedContest = await response.json();
@@ -198,12 +262,26 @@ export default class SearchBar extends React.Component{
     }
 
     async getRanklist() {
+        const cookies = new Cookies();
+        const username = cookies.get('user');
+        
+        var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        var purl = "http://ec2-18-219-136-229.us-east-2.compute.amazonaws.com/backchef/?user="+username;
+        const respons = await fetch(proxyUrl+purl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+        });
+        const dat = await respons.json();
+        const accessToken = dat['data']['access_token'];
+
         const url = "https://api.codechef.com/rankings/" + this.loadedContest['code'] ;
         const response = await fetch(url, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${this.props.state.accessToken}` 
+            'Authorization': `Bearer ${accessToken}` 
           }
         })
         const data = await response.json()
@@ -211,6 +289,21 @@ export default class SearchBar extends React.Component{
       }
 
     async start() {
+        const cookies = new Cookies();
+        const username = cookies.get('user');
+        
+        var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        var purl = "http://ec2-18-219-136-229.us-east-2.compute.amazonaws.com/backchef/?user="+username;
+        const respons = await fetch(proxyUrl+purl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+        });
+        const dat = await respons.json();
+        const accessToken = dat['data']['access_token'];
+
+
         try {
             const ranklist = await this.getRanklist();
             let problemarray = []
@@ -222,7 +315,7 @@ export default class SearchBar extends React.Component{
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${this.props.state.accessToken}`
+                            'Authorization': `Bearer ${accessToken}`
                         }
                     })
                     const data = await response.json();

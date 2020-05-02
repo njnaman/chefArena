@@ -45,10 +45,20 @@ td button{
 
 .question{
     color: honeydew;
-    margin-left: 20px;
-    margin-right: 80px;
+    margin-right: 30%;
+    margin-left: 30px;
 }
 
 .question h1{
     color: wheat;
+}
+.quessubmit{
+    margin:auto;
+    width: 400px;
+    margin-right: 30px;
+}
+
+.quessubmit button{
+    width:100%;
+    margin:auto 0,
 }
